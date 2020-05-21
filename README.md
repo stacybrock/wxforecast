@@ -29,4 +29,4 @@ PUSHOVER_DEVICE=weather
 PUSHOVER_USER_KEY=YOURUSERKEY
 ```
 
-Logout and relogin for the environment variables to loaded into the terminal session.
+Logout and relogin for the environment variables to be loaded into the terminal session.
