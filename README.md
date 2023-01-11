@@ -1,6 +1,6 @@
 # wxforecast
 
-NWS weather forecast -> Pushover
+NWS weather forecast ➡️  Pushover
 
 ## Requirements
 
@@ -12,7 +12,12 @@ NWS weather forecast -> Pushover
 
 Configuration is via environment variables:
 
-* `WXFORECAST_PUSHOVER_APP_KEY` - Pushover application key (https://pushover.net/apps/build)
-* `WXFORECAST_COORDINATES` - latitude,longitude (eg. `39.0693,-94.6716`)
-* `PUSHOVER_DEVICE` - Pushover device name
-* `PUSHOVER_USER_KEY` - Pushover user key
+|ENV VAR|Description|
+|----|----|
+|`WXFORECAST_EMAIL`|Email address for NWS Weather Forecast API User-Agent string|
+|`WXFORECAST_COORDINATES`|Latitude,Longitude (eg. `39.0693,-94.6716`)|
+|`WXFORECAST_PUSHOVER_APP_KEY`|Pushover application key (https://pushover.net/apps/build)|
+|`PUSHOVER_DEVICE`|Pushover device name|
+|`PUSHOVER_USER_KEY`|Pushover user key|
+
+All environment variables are required.

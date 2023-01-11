@@ -1,4 +1,5 @@
 import os
+import sys
 import nwswx
 import requests
 
@@ -7,7 +8,12 @@ import requests
                                            '39.0693,-94.6716').split(',')]
 
 def main():
-    nws = nwswx.WxAPI('[wxforecast] brock@oregonstate.edu')
+    email = os.getenv('WXFORECAST_EMAIL', None)
+    if email is None or email == '':
+        print('Error: missing or empty WXFORECAST_EMAIL environment variable!')
+        sys.exit(1)
+
+    nws = nwswx.WxAPI(email)
     result = nws.point_forecast(LAT, LON, return_format=nwswx.formats.JSONLD)
     forecast = result['periods'][0]
 
