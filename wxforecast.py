@@ -1,20 +1,28 @@
 import os
 import sys
+
+import backoff
 import nwswx
 import requests
 
 
+EMAIL = os.getenv('WXFORECAST_EMAIL', None)
+if EMAIL is None or EMAIL == '':
+    print('Error: missing or empty WXFORECAST_EMAIL environment variable!')
+    sys.exit(1)
+
 (LAT, LON) = [c.strip() for c in os.getenv('WXFORECAST_COORDINATES',
                                            '39.0693,-94.6716').split(',')]
 
-def main():
-    email = os.getenv('WXFORECAST_EMAIL', None)
-    if email is None or email == '':
-        print('Error: missing or empty WXFORECAST_EMAIL environment variable!')
-        sys.exit(1)
+@backoff.on_exception(backoff.expo,
+                      requests.exceptions.ConnectionError,
+                      max_time=60) # seconds
+def get_forecast():
+    nws = nwswx.WxAPI(EMAIL)
+    return nws.point_forecast(LAT, LON,return_format=nwswx.formats.JSONLD)
 
-    nws = nwswx.WxAPI(email)
-    result = nws.point_forecast(LAT, LON, return_format=nwswx.formats.JSONLD)
+def main():
+    result = get_forecast()
     forecast = result['periods'][0]
 
     # create pushover notification
