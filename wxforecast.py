@@ -15,7 +15,7 @@ if EMAIL is None or EMAIL == '':
                                            '39.0693,-94.6716').split(',')]
 
 @backoff.on_exception(backoff.expo,
-                      requests.exceptions.ConnectionError,
+                      requests.exceptions.RequestException,
                       max_time=60) # seconds
 def get_forecast():
     nws = nwswx.WxAPI(EMAIL)
