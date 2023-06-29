@@ -13,9 +13,11 @@ if EMAIL is None or EMAIL == '':
 
 (LAT, LON) = [c.strip() for c in os.getenv('WXFORECAST_COORDINATES',
                                            '39.0693,-94.6716').split(',')]
-
 @backoff.on_exception(backoff.expo,
-                      requests.exceptions.RequestException,
+                      requests.exceptions.HTTPError,
+                      max_time=60) # seconds
+@backoff.on_exception(backoff.expo,
+                      nwswx.exceptions.APIError,
                       max_time=60) # seconds
 def get_forecast():
     nws = nwswx.WxAPI(EMAIL)
